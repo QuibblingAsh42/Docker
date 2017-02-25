@@ -1,0 +1,17 @@
+FROM alpine:3.4
+ 
+ENV LANG="en_US.UTF-8" \
+LC_ALL="en_US.UTF-8" \
+LANGUAGE="en_US.UTF-8" \
+TERM="xterm"
+ 
+RUN adduser -D -g 1000 -u 1000 nginx
+ 
+RUN apk -U upgrade && \
+apk --update add \
+nginx bash joe
+ 
+ 
+EXPOSE 80 443
+ 
+CMD ["nginx", "-g", "daemon off;"] 

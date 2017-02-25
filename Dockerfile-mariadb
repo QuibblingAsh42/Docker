@@ -1,0 +1,23 @@
+FROM alpine:3.4
+ 
+ENV LANG="en_US.UTF-8" \
+LC_ALL="en_US.UTF-8" \
+LANGUAGE="en_US.UTF-8" \
+TERM="xterm"
+ 
+RUN adduser -D -g 1000 -u 1000 mysql
+ 
+RUN apk -U upgrade && \
+apk --update add \
+mariadb mariadb-client bash joe pwgen \
+&& \
+rm -rf /tmp/src && \
+rm -rf /var/cache/apk/*
+ 
+RUN mkdir -p /var/run/mysqld && chown -R mysql:mysql /var/run/mysqld
+RUN mkdir -p /var/log/mysql && chown -R mysql:mysql /var/log/mysql
+RUN mkdir -p /var/lib/mysql && chown -R mysql:mysql /var/lib/mysql
+ 
+EXPOSE 3306 33060
+ 
+CMD ["mysqld_safe", "--user=mysql"] 
